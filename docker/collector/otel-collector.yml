@@ -1,0 +1,22 @@
+receivers:
+  otlp:
+    protocols:
+      http:
+      grpc:
+
+processors:
+  # batch metrics before sending to reduce API usage
+  batch:
+
+exporters:
+  otlp/tempo:
+    endpoint: "http://tempo:4317"
+    tls:
+      insecure: true
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlp/tempo]  # name here should match the exporter name for tempo which is otlp

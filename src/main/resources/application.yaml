@@ -1,0 +1,26 @@
+spring:
+  application:
+    name:  my-service
+  kafka:
+    bootstrap-servers: localhost:29092
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  otlp:
+    tracing:
+      endpoint: http://localhost:4318/v1/traces
+      export:
+        step: 3s # Export interval set to 3 seconds
+  tracing:
+    sampling:
+      probability: 1.0
+
+otel:
+  metrics:
+    exporter: none
+  logs:
+    exporter: none
+  traces:
+    exporter: otlp
